@@ -1,35 +1,64 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useRef } from "react";
 import { weddingData } from "../config/weddingData";
 
 const WeddingStateContext = createContext(null);
 const API_BASE = import.meta.env.VITE_API_URL || "";
 
+// Load any previously saved photos from localStorage as instant cache
+const getInitialPhotos = () => {
+  const initial = { ...weddingData.photos };
+  try {
+    ["hero", "story", "details"].forEach((key) => {
+      const saved = localStorage.getItem(`wedding_photo_${key}`);
+      if (saved) {
+        initial[key] = saved;
+      }
+    });
+  } catch (err) {
+    // localStorage might be unavailable or full
+  }
+  return initial;
+};
+
 export const WeddingStateProvider = ({ children }) => {
   const [weddingState, setWeddingState] = useState({
-    photos: { ...weddingData.photos },
+    photos: getInitialPhotos(),
   });
+
+  const isServerAvailableRef = useRef(true);
 
   const fetchState = async () => {
     try {
-      const res = await fetch(`${API_BASE}/api/wedding-state`);
+      const res = await fetch(`${API_BASE}/api/wedding-state`, {
+        headers: { Accept: "application/json" },
+      });
       if (res.ok) {
         const data = await res.json();
-        if (data.photos) {
+        if (data && data.photos) {
+          isServerAvailableRef.current = true;
           setWeddingState((prev) => ({
             ...prev,
             photos: { ...prev.photos, ...data.photos },
           }));
         }
+      } else {
+        // 503 or 404 - backend is offline or not deployed with backend
+        isServerAvailableRef.current = false;
       }
     } catch (e) {
-      // Offline fallback to defaults
+      // Backend server is offline; silently keep using local cached photos
+      isServerAvailableRef.current = false;
     }
   };
 
   useEffect(() => {
     fetchState();
-    // Poll every 8 seconds for live photo sync across devices
-    const interval = setInterval(fetchState, 8000);
+    // Only poll periodically if server was available
+    const interval = setInterval(() => {
+      if (isServerAvailableRef.current) {
+        fetchState();
+      }
+    }, 15000);
     return () => clearInterval(interval);
   }, []);
 
