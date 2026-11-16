@@ -2,7 +2,16 @@ import React, { createContext, useContext, useState, useEffect, useRef } from "r
 import { weddingData } from "../config/weddingData";
 
 const WeddingStateContext = createContext(null);
-const API_BASE = import.meta.env.VITE_API_URL || "";
+const API_BASE = import.meta.env.VITE_API_URL || "https://wedding1-fevi.onrender.com";
+
+// Resolve relative /uploads/... paths to live Render backend domain
+export const resolvePhotoUrl = (url) => {
+  if (!url) return "";
+  if (url.startsWith("/uploads/")) {
+    return `${API_BASE}${url}`;
+  }
+  return url;
+};
 
 // Load any previously saved photos from localStorage as instant cache
 const getInitialPhotos = () => {
@@ -11,7 +20,7 @@ const getInitialPhotos = () => {
     ["hero", "story", "details"].forEach((key) => {
       const saved = localStorage.getItem(`wedding_photo_${key}`);
       if (saved) {
-        initial[key] = saved;
+        initial[key] = resolvePhotoUrl(saved);
       }
     });
   } catch (err) {
@@ -36,13 +45,17 @@ export const WeddingStateProvider = ({ children }) => {
         const data = await res.json();
         if (data && data.photos) {
           isServerAvailableRef.current = true;
+          const resolvedPhotos = {};
+          Object.keys(data.photos).forEach((k) => {
+            resolvedPhotos[k] = resolvePhotoUrl(data.photos[k]);
+          });
           setWeddingState((prev) => ({
             ...prev,
-            photos: { ...prev.photos, ...data.photos },
+            photos: { ...prev.photos, ...resolvedPhotos },
           }));
         }
       } else {
-        // 503 or 404 - backend is offline or not deployed with backend
+        // 503 or 404 - backend is offline
         isServerAvailableRef.current = false;
       }
     } catch (e) {
@@ -53,12 +66,12 @@ export const WeddingStateProvider = ({ children }) => {
 
   useEffect(() => {
     fetchState();
-    // Only poll periodically if server was available
+    // Poll every 12 seconds for live photo sync across devices
     const interval = setInterval(() => {
       if (isServerAvailableRef.current) {
         fetchState();
       }
-    }, 15000);
+    }, 12000);
     return () => clearInterval(interval);
   }, []);
 
@@ -68,6 +81,7 @@ export const WeddingStateProvider = ({ children }) => {
         weddingState,
         refreshState: fetchState,
         setWeddingState,
+        resolvePhotoUrl,
       }}
     >
       {children}

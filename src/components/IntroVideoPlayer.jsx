@@ -3,82 +3,54 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FastForward, Sparkles, Heart } from "lucide-react";
 
 export const IntroVideoPlayer = ({ onComplete }) => {
-  // isOpen: false = waiting for user to tap the central seal on the video card; true = video playing
+  // isOpen: false = waiting for user to tap the door medallion; true = video playing
   const [isOpen, setIsOpen] = useState(false);
-  // videoStage: 1 = v1.mp4 (0 to 4s), 2 = v2.mp4 (4s to 14s)
-  const [videoStage, setVideoStage] = useState(1);
   const [isExiting, setIsExiting] = useState(false);
 
-  const video1Ref = useRef(null);
-  const video2Ref = useRef(null);
+  const videoRef = useRef(null);
 
-  // Preload videos on mount so the door card is instantly buffered in phone memory
+  // Preload intro video on mount so it buffers immediately in phone memory
   useEffect(() => {
-    if (video1Ref.current) {
-      video1Ref.current.muted = true;
-      video1Ref.current.preload = "auto";
+    if (videoRef.current) {
+      videoRef.current.muted = true;
+      videoRef.current.preload = "auto";
       try {
-        video1Ref.current.load();
-      } catch (e) {}
-    }
-    if (video2Ref.current) {
-      video2Ref.current.muted = true;
-      video2Ref.current.preload = "auto";
-      try {
-        video2Ref.current.load();
+        videoRef.current.load();
       } catch (e) {}
     }
   }, []);
 
-  // When user taps the central seal on the door
+  // When user taps the central 3D gold door medallion
   const handleOpenInvitation = () => {
     if (isOpen) return;
     setIsOpen(true);
 
-    // 1. Play Video 1 immediately (Strictly muted, playsInline for iOS and Android)
-    if (video1Ref.current) {
-      video1Ref.current.muted = true;
-      const playPromise = video1Ref.current.play();
+    // Play the single seamless video (0s to 13.2s: doors open, crossfades into celebration)
+    if (videoRef.current) {
+      videoRef.current.muted = true;
+      videoRef.current.currentTime = 0;
+      const playPromise = videoRef.current.play();
       if (playPromise !== undefined) {
         playPromise.catch((err) => {
-          console.warn("Video 1 play catch:", err);
+          console.warn("Video play catch:", err);
         });
       }
     }
 
-    // 2. Preload Video 2 in background
-    if (video2Ref.current) {
-      video2Ref.current.muted = true;
-      try {
-        video2Ref.current.load();
-      } catch (e) {}
-    }
-
-    // 3. At 3.8s: Start Video 2 with smooth cross-fade
-    const transitionTimer = setTimeout(() => {
-      setVideoStage(2);
-      if (video2Ref.current) {
-        video2Ref.current.currentTime = 0;
-        video2Ref.current.play().catch(() => {});
-      }
-    }, 3800);
-
-    // 4. At 14.0s (4s of v1 + 10s of v2): Smoothly finish intro animation
+    // Safety fallback timer: auto-complete when video finishes (13.5s)
     const endTimer = setTimeout(() => {
       finishIntro();
-    }, 14000);
+    }, 13500);
 
-    return () => {
-      clearTimeout(transitionTimer);
-      clearTimeout(endTimer);
-    };
+    return () => clearTimeout(endTimer);
   };
 
   const finishIntro = () => {
+    if (isExiting) return;
     setIsExiting(true);
     setTimeout(() => {
       if (onComplete) onComplete();
-    }, 700);
+    }, 600);
   };
 
   return (
@@ -87,13 +59,13 @@ export const IntroVideoPlayer = ({ onComplete }) => {
         <motion.div
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, scale: 0.98 }}
-          transition={{ duration: 0.7, ease: "easeInOut" }}
+          transition={{ duration: 0.6, ease: "easeInOut" }}
           className="fixed inset-0 z-[100] bg-[#140E0A]/95 sm:bg-black/90 flex items-center justify-center p-0 sm:p-4 backdrop-blur-md select-none"
         >
-          {/* Mobile phone frame container: Strictly mobile screen size (max-w-[430px]) on all devices */}
+          {/* Mobile container: Strictly mobile screen size (max-w-[430px]) on all devices */}
           <div className="relative w-full max-w-[430px] h-[100dvh] sm:h-[860px] sm:max-h-[92vh] sm:rounded-3xl sm:border sm:border-[#C5A059]/40 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.85)] overflow-hidden bg-[#2D1F17] flex items-center justify-center">
             
-            {/* INSTANT PRELOADED DOOR POSTER: Guarantees the royal door is 100% visible behind the button immediately on mobile with 0 black flash */}
+            {/* INSTANT DOOR POSTER: Displays exact closed door frame with 0ms delay */}
             <img
               src="/door-poster.jpg"
               alt="Royal Wedding Closed Doors"
@@ -101,54 +73,30 @@ export const IntroVideoPlayer = ({ onComplete }) => {
               loading="eager"
             />
 
-            {/* 1. VIDEO 1: Plays when tapped, seamlessly taking over from the instant poster */}
-            <motion.div
-              className="absolute inset-0 w-full h-full"
-              initial={{ opacity: 1 }}
-              animate={{ opacity: videoStage === 1 ? 1 : 0 }}
-              transition={{ duration: 0.8, ease: "easeInOut" }}
-            >
-              <video
-                ref={video1Ref}
-                src="/v1.mp4"
-                poster="/door-poster.jpg"
-                muted
-                playsInline
-                webkit-playsinline="true"
-                preload="auto"
-                className="w-full h-full object-cover"
-              />
-            </motion.div>
-
-            {/* 2. VIDEO 2: Seamlessly cross-fades at 3.8s and plays for 10s */}
-            <motion.div
-              className="absolute inset-0 w-full h-full"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: videoStage === 2 ? 1 : 0 }}
-              transition={{ duration: 0.8, ease: "easeInOut" }}
-            >
-              <video
-                ref={video2Ref}
-                src="/v2.mp4"
-                muted
-                playsInline
-                webkit-playsinline="true"
-                preload="auto"
-                className="w-full h-full object-cover"
-              />
-            </motion.div>
+            {/* SINGLE SEAMLESS INTRO VIDEO: Doors open smoothly & transitions into wedding celebration */}
+            <video
+              ref={videoRef}
+              src="/intro.mp4"
+              poster="/door-poster.jpg"
+              muted
+              playsInline
+              webkit-playsinline="true"
+              preload="auto"
+              onEnded={finishIntro}
+              className="w-full h-full object-cover relative z-10"
+            />
 
             {/* Cinematic subtle vignette overlay */}
-            <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/55 via-transparent to-black/30" />
+            <div className="absolute inset-0 pointer-events-none z-15 bg-gradient-to-t from-black/50 via-transparent to-black/25" />
 
-            {/* 3. TAP TO OPEN BUTTON OVERLAY: Placed EXACTLY over the central circle medallion of the gold doors */}
+            {/* TAP TO OPEN DOOR SEAL BUTTON: Sits over the central mandala medallion */}
             <AnimatePresence>
               {!isOpen && (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 1.25 }}
-                  transition={{ duration: 0.5, ease: "easeOut" }}
+                  transition={{ duration: 0.45, ease: "easeOut" }}
                   className="absolute inset-0 z-20 flex items-center justify-center cursor-pointer pointer-events-auto"
                   onClick={handleOpenInvitation}
                 >
@@ -197,7 +145,7 @@ export const IntroVideoPlayer = ({ onComplete }) => {
               )}
             </AnimatePresence>
 
-            {/* 4. Small Discreet Skip Button at bottom right */}
+            {/* Discreet Skip Button at bottom right */}
             <div className="absolute bottom-6 right-5 z-30">
               <button
                 type="button"
