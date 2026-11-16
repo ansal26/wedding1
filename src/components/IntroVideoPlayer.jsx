@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FastForward, Sparkles, Heart, Volume2, VolumeX } from "lucide-react";
+import { FastForward, Sparkles, Heart } from "lucide-react";
 
 export const IntroVideoPlayer = ({ onComplete }) => {
   // isOpen: false = waiting for user to tap the door medallion; true = video playing
   const [isOpen, setIsOpen] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
 
   const videoRef = useRef(null);
   const endTimerRef = useRef(null);
@@ -14,6 +13,7 @@ export const IntroVideoPlayer = ({ onComplete }) => {
   // Preload intro video on mount so it buffers immediately in phone memory
   useEffect(() => {
     if (videoRef.current) {
+      videoRef.current.muted = true;
       videoRef.current.preload = "auto";
       try {
         videoRef.current.load();
@@ -26,45 +26,30 @@ export const IntroVideoPlayer = ({ onComplete }) => {
     };
   }, []);
 
-  const toggleMute = (e) => {
-    e.stopPropagation();
-    if (videoRef.current) {
-      const nextMuted = !videoRef.current.muted;
-      videoRef.current.muted = nextMuted;
-      setIsMuted(nextMuted);
-    }
-  };
-
   // When user taps the central 3D gold door medallion
   const handleOpenInvitation = () => {
     if (isOpen) return;
     setIsOpen(true);
 
-    // Play the single seamless full-length video (Doors open -> Entire royal wedding card celebration ~26.8s)
+    // Play the single seamless silent video (Doors open 3.8s -> 2nd video card 10s = 13.8s total)
     if (videoRef.current) {
-      // Avoid resetting currentTime if already near 0 to prevent re-buffering latency on mobile
       if (videoRef.current.currentTime > 0.3) {
         videoRef.current.currentTime = 0;
       }
-      videoRef.current.muted = isMuted;
+      videoRef.current.muted = true;
       const playPromise = videoRef.current.play();
       if (playPromise !== undefined) {
         playPromise.catch((err) => {
-          console.warn("Unmuted autoplay restricted by browser, playing muted:", err);
-          if (videoRef.current) {
-            videoRef.current.muted = true;
-            setIsMuted(true);
-            videoRef.current.play().catch(() => {});
-          }
+          console.warn("Autoplay notice:", err);
         });
       }
     }
 
-    // Safety fallback timer: auto-complete if video finishes (28.5s fallback for 26.87s video)
+    // Safety fallback timer: auto-complete when the 13.8s video finishes (14.2s fallback)
     if (endTimerRef.current) clearTimeout(endTimerRef.current);
     endTimerRef.current = setTimeout(() => {
       finishIntro();
-    }, 28500);
+    }, 14200);
   };
 
   const finishIntro = () => {
@@ -96,11 +81,12 @@ export const IntroVideoPlayer = ({ onComplete }) => {
               loading="eager"
             />
 
-            {/* SINGLE SEAMLESS INTRO VIDEO: Doors open smoothly & transitions into full wedding celebration */}
+            {/* SINGLE SEAMLESS INTRO VIDEO: Doors open smoothly & transitions into 10s wedding celebration (Completely Silent) */}
             <video
               ref={videoRef}
               src="/intro.mp4"
               poster="/door-poster.jpg"
+              muted
               playsInline
               webkit-playsinline="true"
               preload="auto"
@@ -110,28 +96,6 @@ export const IntroVideoPlayer = ({ onComplete }) => {
 
             {/* Cinematic subtle vignette overlay */}
             <div className="absolute inset-0 pointer-events-none z-15 bg-gradient-to-t from-black/50 via-transparent to-black/25" />
-
-            {/* Sound Toggle Button at top right while video is playing */}
-            {isOpen && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="absolute top-5 right-5 z-30"
-              >
-                <button
-                  type="button"
-                  onClick={toggleMute}
-                  className="p-2.5 rounded-full bg-black/60 hover:bg-black/80 active:scale-95 backdrop-blur-md border border-[#C5A059]/50 text-[#F4DF9E] hover:text-white transition-all flex items-center justify-center cursor-pointer shadow-lg"
-                  aria-label={isMuted ? "Unmute music" : "Mute music"}
-                >
-                  {isMuted ? (
-                    <VolumeX className="w-4 h-4 text-[#F4DF9E]" />
-                  ) : (
-                    <Volume2 className="w-4 h-4 text-[#F4DF9E]" />
-                  )}
-                </button>
-              </motion.div>
-            )}
 
             {/* TAP TO OPEN DOOR SEAL BUTTON: Sits over the central mandala medallion */}
             <AnimatePresence>
