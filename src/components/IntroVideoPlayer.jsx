@@ -1,53 +1,76 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FastForward, Sparkles, Heart } from "lucide-react";
+import { FastForward, Sparkles, Heart, Volume2, VolumeX } from "lucide-react";
 
 export const IntroVideoPlayer = ({ onComplete }) => {
   // isOpen: false = waiting for user to tap the door medallion; true = video playing
   const [isOpen, setIsOpen] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
 
   const videoRef = useRef(null);
+  const endTimerRef = useRef(null);
 
   // Preload intro video on mount so it buffers immediately in phone memory
   useEffect(() => {
     if (videoRef.current) {
-      videoRef.current.muted = true;
       videoRef.current.preload = "auto";
       try {
         videoRef.current.load();
       } catch (e) {}
     }
+    return () => {
+      if (endTimerRef.current) {
+        clearTimeout(endTimerRef.current);
+      }
+    };
   }, []);
+
+  const toggleMute = (e) => {
+    e.stopPropagation();
+    if (videoRef.current) {
+      const nextMuted = !videoRef.current.muted;
+      videoRef.current.muted = nextMuted;
+      setIsMuted(nextMuted);
+    }
+  };
 
   // When user taps the central 3D gold door medallion
   const handleOpenInvitation = () => {
     if (isOpen) return;
     setIsOpen(true);
 
-    // Play the single seamless video (0s to 13.2s: doors open, crossfades into celebration)
+    // Play the single seamless full-length video (Doors open -> Entire royal wedding card celebration ~26.8s)
     if (videoRef.current) {
-      videoRef.current.muted = true;
-      videoRef.current.currentTime = 0;
+      // Avoid resetting currentTime if already near 0 to prevent re-buffering latency on mobile
+      if (videoRef.current.currentTime > 0.3) {
+        videoRef.current.currentTime = 0;
+      }
+      videoRef.current.muted = isMuted;
       const playPromise = videoRef.current.play();
       if (playPromise !== undefined) {
         playPromise.catch((err) => {
-          console.warn("Video play catch:", err);
+          console.warn("Unmuted autoplay restricted by browser, playing muted:", err);
+          if (videoRef.current) {
+            videoRef.current.muted = true;
+            setIsMuted(true);
+            videoRef.current.play().catch(() => {});
+          }
         });
       }
     }
 
-    // Safety fallback timer: auto-complete when video finishes (13.5s)
-    const endTimer = setTimeout(() => {
+    // Safety fallback timer: auto-complete if video finishes (28.5s fallback for 26.87s video)
+    if (endTimerRef.current) clearTimeout(endTimerRef.current);
+    endTimerRef.current = setTimeout(() => {
       finishIntro();
-    }, 13500);
-
-    return () => clearTimeout(endTimer);
+    }, 28500);
   };
 
   const finishIntro = () => {
     if (isExiting) return;
     setIsExiting(true);
+    if (endTimerRef.current) clearTimeout(endTimerRef.current);
     setTimeout(() => {
       if (onComplete) onComplete();
     }, 600);
@@ -73,12 +96,11 @@ export const IntroVideoPlayer = ({ onComplete }) => {
               loading="eager"
             />
 
-            {/* SINGLE SEAMLESS INTRO VIDEO: Doors open smoothly & transitions into wedding celebration */}
+            {/* SINGLE SEAMLESS INTRO VIDEO: Doors open smoothly & transitions into full wedding celebration */}
             <video
               ref={videoRef}
               src="/intro.mp4"
               poster="/door-poster.jpg"
-              muted
               playsInline
               webkit-playsinline="true"
               preload="auto"
@@ -88,6 +110,28 @@ export const IntroVideoPlayer = ({ onComplete }) => {
 
             {/* Cinematic subtle vignette overlay */}
             <div className="absolute inset-0 pointer-events-none z-15 bg-gradient-to-t from-black/50 via-transparent to-black/25" />
+
+            {/* Sound Toggle Button at top right while video is playing */}
+            {isOpen && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="absolute top-5 right-5 z-30"
+              >
+                <button
+                  type="button"
+                  onClick={toggleMute}
+                  className="p-2.5 rounded-full bg-black/60 hover:bg-black/80 active:scale-95 backdrop-blur-md border border-[#C5A059]/50 text-[#F4DF9E] hover:text-white transition-all flex items-center justify-center cursor-pointer shadow-lg"
+                  aria-label={isMuted ? "Unmute music" : "Mute music"}
+                >
+                  {isMuted ? (
+                    <VolumeX className="w-4 h-4 text-[#F4DF9E]" />
+                  ) : (
+                    <Volume2 className="w-4 h-4 text-[#F4DF9E]" />
+                  )}
+                </button>
+              </motion.div>
+            )}
 
             {/* TAP TO OPEN DOOR SEAL BUTTON: Sits over the central mandala medallion */}
             <AnimatePresence>
@@ -150,11 +194,11 @@ export const IntroVideoPlayer = ({ onComplete }) => {
               <button
                 type="button"
                 onClick={finishIntro}
-                className="px-3.5 py-1.5 rounded-full bg-black/55 hover:bg-black/80 active:scale-95 backdrop-blur-md border border-white/30 text-white/90 hover:text-white text-[10px] font-sans font-semibold tracking-widest uppercase transition-all flex items-center gap-1.5 cursor-pointer shadow-lg"
+                className="px-3.5 py-1.5 rounded-full bg-black/60 hover:bg-black/85 active:scale-95 backdrop-blur-md border border-[#C5A059]/40 text-white/90 hover:text-white text-[10px] font-sans font-semibold tracking-widest uppercase transition-all flex items-center gap-1.5 cursor-pointer shadow-lg"
                 aria-label="Skip video"
               >
                 <span>Skip</span>
-                <FastForward className="w-3 h-3 text-[#EFE3D5]" />
+                <FastForward className="w-3 h-3 text-[#F4DF9E]" />
               </button>
             </div>
           </div>
