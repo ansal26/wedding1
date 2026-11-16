@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { PetalOverlay } from "./components/PetalOverlay";
 import { IntroVideoPlayer } from "./components/IntroVideoPlayer";
 import { PanelOneIntroduction } from "./components/PanelOneIntroduction";
@@ -10,9 +10,40 @@ import { Calendar, Heart, ArrowUp, Film } from "lucide-react";
 export function App() {
   const celebrationsRef = useRef(null);
   const detailsRef = useRef(null);
+  const audioRef = useRef(null);
+  const audioStartedRef = useRef(false);
 
   // Intro video starts automatically on load without asking
   const [showIntro, setShowIntro] = useState(true);
+
+  // Preload and configure continuous background romantic wedding song ("Aaj Se Teri")
+  useEffect(() => {
+    const audio = new Audio("/wedding-song.mp3");
+    audio.loop = true;
+    audio.volume = 0.35; // Gentle, pleasant low background volume
+    audio.preload = "auto";
+    audioRef.current = audio;
+
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+    };
+  }, []);
+
+  // Play background song continuously starting when user taps "Tap to open"
+  const startBackgroundAudio = () => {
+    if (audioRef.current && !audioStartedRef.current) {
+      audioStartedRef.current = true;
+      audioRef.current.volume = 0.35;
+      const playPromise = audioRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise.catch((err) => {
+          console.warn("Background audio play interrupted:", err);
+        });
+      }
+    }
+  };
 
   const scrollToSection = (section) => {
     if (section === "schedule" && celebrationsRef.current) {
@@ -29,7 +60,10 @@ export function App() {
       <div className="min-h-screen bg-[#F5EFE7] text-[#443529] relative overflow-x-hidden antialiased flex flex-col items-center">
         {/* 1. CINEMATIC INTRO VIDEO ANIMATION (Runs automatically: 4s v1 + 10s v2 seamlessly cross-faded, strictly mobile frame size) */}
         {showIntro && (
-          <IntroVideoPlayer onComplete={() => setShowIntro(false)} />
+          <IntroVideoPlayer
+            onOpenStart={startBackgroundAudio}
+            onComplete={() => setShowIntro(false)}
+          />
         )}
 
         {/* 2. FLOATING ROSE PETALS */}

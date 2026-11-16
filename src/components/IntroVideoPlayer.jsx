@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FastForward, Sparkles, Heart } from "lucide-react";
 
-export const IntroVideoPlayer = ({ onComplete }) => {
+export const IntroVideoPlayer = ({ onComplete, onOpenStart }) => {
   // isOpen: false = waiting for user to tap the door medallion; true = video playing
   const [isOpen, setIsOpen] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
@@ -30,6 +30,11 @@ export const IntroVideoPlayer = ({ onComplete }) => {
   const handleOpenInvitation = () => {
     if (isOpen) return;
     setIsOpen(true);
+
+    // Trigger continuous background wedding song immediately upon user gesture
+    if (onOpenStart) {
+      onOpenStart();
+    }
 
     // Play the single seamless silent video (Doors open 3.8s -> 2nd video card 10s = 13.8s total)
     if (videoRef.current) {
@@ -157,7 +162,10 @@ export const IntroVideoPlayer = ({ onComplete }) => {
             <div className="absolute bottom-6 right-5 z-30">
               <button
                 type="button"
-                onClick={finishIntro}
+                onClick={() => {
+                  if (onOpenStart) onOpenStart();
+                  finishIntro();
+                }}
                 className="px-3.5 py-1.5 rounded-full bg-black/60 hover:bg-black/85 active:scale-95 backdrop-blur-md border border-[#C5A059]/40 text-white/90 hover:text-white text-[10px] font-sans font-semibold tracking-widest uppercase transition-all flex items-center gap-1.5 cursor-pointer shadow-lg"
                 aria-label="Skip video"
               >
