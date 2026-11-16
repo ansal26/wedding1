@@ -1,0 +1,19 @@
+{
+  "photos": {
+    "hero": "/1.jpg",
+    "story": "https://images.unsplash.com/photo-1607190074257-dd4b7af0309f?auto=format&fit=crop&w=1000&q=85",
+    "details": "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1000&q=85"
+  },
+  "groomLocation": {
+    "lat": 32.1818294784792,
+    "lng": 76.37566119645943,
+    "updatedAt": "2026-11-16T08:24:39.028Z",
+    "mapUrl": "https://www.google.com/maps/dir/?api=1&destination=32.1818294784792,76.37566119645943"
+  },
+  "brideLocation": {
+    "lat": 32.1818294784792,
+    "lng": 76.37566119645943,
+    "updatedAt": "2026-11-16T08:24:37.576Z",
+    "mapUrl": "https://www.google.com/maps/dir/?api=1&destination=32.1818294784792,76.37566119645943"
+  }
+}

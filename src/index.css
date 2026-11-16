@@ -1,0 +1,115 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-royal: "Playfair Display", Georgia, serif;
+  --font-italiana: "Italiana", serif;
+  --font-cinzel: "Cinzel Decorative", serif;
+  --font-script: "Alex Brush", cursive;
+  --font-sans: "Montserrat", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: "Marcellus", serif;
+  --font-hindi: "Noto Serif Devanagari", serif;
+
+  --color-ivory: #FAF7F2;
+  --color-cream: #FDFBF7;
+  --color-sand: #F4ECE1;
+  --color-taupe: #9A7B61;
+  --color-taupe-dark: #7D6047;
+  --color-mocha: #443529;
+  --color-warm-gray: #7C6656;
+  --color-gold: #C5A059;
+  --color-gold-light: #DFBA73;
+  --color-border-subtle: #EBE3D7;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #FAF7F2;
+}
+::-webkit-scrollbar-thumb {
+  background: #D9CEBF;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #B8A894;
+}
+
+/* Base utility enhancements */
+body {
+  font-family: var(--font-sans);
+  background-color: #FAF7F2;
+  color: #443529;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+.font-royal {
+  font-family: var(--font-royal);
+}
+
+.font-italiana {
+  font-family: var(--font-italiana);
+}
+
+.font-cinzel {
+  font-family: var(--font-cinzel);
+}
+
+.font-script {
+  font-family: var(--font-script);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-hindi {
+  font-family: var(--font-hindi);
+}
+
+/* Floating animation for subtle background petal drift */
+@keyframes floatSlow {
+  0% {
+    transform: translateY(-10px) rotate(0deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.6;
+  }
+  80% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(105vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.animate-petal {
+  position: fixed;
+  top: -20px;
+  pointer-events: none;
+  z-index: 10;
+  animation: floatSlow linear infinite;
+}
+
+/* Subtle pulse glow */
+@keyframes softGlow {
+  0%, 100% {
+    box-shadow: 0 4px 20px -2px rgba(154, 123, 97, 0.15);
+  }
+  50% {
+    box-shadow: 0 4px 28px 2px rgba(154, 123, 97, 0.28);
+  }
+}
+
+.glow-card {
+  animation: softGlow 4s ease-in-out infinite;
+}
