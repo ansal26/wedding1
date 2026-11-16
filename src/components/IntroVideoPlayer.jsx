@@ -12,18 +12,21 @@ export const IntroVideoPlayer = ({ onComplete }) => {
   const video1Ref = useRef(null);
   const video2Ref = useRef(null);
 
-  // Preload and pause video 1 at frame 0 so the gold door card is immediately visible
+  // Preload videos on mount so the door card is instantly buffered in phone memory
   useEffect(() => {
     if (video1Ref.current) {
       video1Ref.current.muted = true;
       video1Ref.current.preload = "auto";
-      video1Ref.current.currentTime = 0;
-      video1Ref.current.pause();
+      try {
+        video1Ref.current.load();
+      } catch (e) {}
     }
     if (video2Ref.current) {
       video2Ref.current.muted = true;
       video2Ref.current.preload = "auto";
-      video2Ref.current.load();
+      try {
+        video2Ref.current.load();
+      } catch (e) {}
     }
   }, []);
 
@@ -35,17 +38,20 @@ export const IntroVideoPlayer = ({ onComplete }) => {
     // 1. Play Video 1 immediately (Strictly muted, playsInline for iOS and Android)
     if (video1Ref.current) {
       video1Ref.current.muted = true;
-      video1Ref.current.currentTime = 0;
       const playPromise = video1Ref.current.play();
       if (playPromise !== undefined) {
-        playPromise.catch(() => {});
+        playPromise.catch((err) => {
+          console.warn("Video 1 play catch:", err);
+        });
       }
     }
 
     // 2. Preload Video 2 in background
     if (video2Ref.current) {
       video2Ref.current.muted = true;
-      video2Ref.current.load();
+      try {
+        video2Ref.current.load();
+      } catch (e) {}
     }
 
     // 3. At 3.8s: Start Video 2 with smooth cross-fade
@@ -87,7 +93,15 @@ export const IntroVideoPlayer = ({ onComplete }) => {
           {/* Mobile phone frame container: Strictly mobile screen size (max-w-[430px]) on all devices */}
           <div className="relative w-full max-w-[430px] h-[100dvh] sm:h-[860px] sm:max-h-[92vh] sm:rounded-3xl sm:border sm:border-[#C5A059]/40 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.85)] overflow-hidden bg-[#2D1F17] flex items-center justify-center">
             
-            {/* 1. VIDEO 1: Displays initial closed gold door frame when paused, then plays when tapped */}
+            {/* INSTANT PRELOADED DOOR POSTER: Guarantees the royal door is 100% visible behind the button immediately on mobile with 0 black flash */}
+            <img
+              src="/door-poster.jpg"
+              alt="Royal Wedding Closed Doors"
+              className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+              loading="eager"
+            />
+
+            {/* 1. VIDEO 1: Plays when tapped, seamlessly taking over from the instant poster */}
             <motion.div
               className="absolute inset-0 w-full h-full"
               initial={{ opacity: 1 }}
@@ -97,6 +111,7 @@ export const IntroVideoPlayer = ({ onComplete }) => {
               <video
                 ref={video1Ref}
                 src="/v1.mp4"
+                poster="/door-poster.jpg"
                 muted
                 playsInline
                 webkit-playsinline="true"
