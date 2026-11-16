@@ -97,12 +97,12 @@ export const PanelOneIntroduction = () => {
         </motion.span>
       </motion.div>
 
-      {/* 2. SCRIPT HEADING WORD BY WORD */}
+      {/* 2. AUTHENTIC HANDCRAFTED CALLIGRAPHY INTRO (Word by word queue) */}
       <div className="relative z-10 mb-1 max-w-[340px]">
-        <span className="font-script text-3xl sm:text-4xl text-[#7D6451] block leading-relaxed drop-shadow-2xs">
+        <span className="font-handwritten text-4xl sm:text-5xl text-[#6E4E37] block leading-tight drop-shadow-2xs py-1">
           <WordQueue text={invocations.introScript} delay={0.65} speed={0.08} />
         </span>
-        <p className="font-serif italic text-xs sm:text-sm text-[#705A4A] font-medium leading-relaxed mt-1 px-2">
+        <p className="font-pinyon text-base sm:text-lg text-[#7C624E] leading-relaxed mt-1 px-2">
           <WordQueue text={invocations.blessingText} delay={0.95} speed={0.05} />
         </p>
       </div>
@@ -119,7 +119,7 @@ export const PanelOneIntroduction = () => {
         <div className="h-[1.5px] w-12 bg-gradient-to-l from-transparent to-[#C5A059]" />
       </motion.div>
 
-      {/* 3. COUPLE & PARENTS (ORIGINAL LUXURY ROYAL FONT, CLEAN OPEN LAYOUT) */}
+      {/* 3. COUPLE & PARENTS (DISTINCT ROYAL CINZEL & HANDWRITTEN CALLIGRAPHY) */}
       <div className="relative z-10 w-full max-w-[340px] my-2">
         
         {/* GROOM NAME: "ASHISH" */}
@@ -128,17 +128,17 @@ export const PanelOneIntroduction = () => {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.5, ease: [0.16, 1, 0.3, 1] }}
-            className="font-royal text-3xl xs:text-4xl sm:text-[2.6rem] text-[#2D1F17] uppercase tracking-[0.18em] font-semibold leading-tight drop-shadow-xs"
+            className="font-cinzel text-3xl xs:text-4xl sm:text-[2.6rem] text-[#2D1F17] uppercase tracking-[0.16em] font-bold leading-tight drop-shadow-xs"
           >
             {groom.name}
           </motion.h1>
           
-          <p className="font-sans text-xs sm:text-sm text-[#801A1A] font-semibold tracking-wide mt-1.5 mb-2">
+          <p className="font-serif italic text-xs sm:text-sm text-[#801A1A] font-semibold tracking-wide mt-1.5 mb-2">
             <WordQueue text={groom.parents} delay={1.75} speed={0.05} />
           </p>
         </div>
 
-        {/* WEDS IN GOLDEN SCRIPT */}
+        {/* WEDS IN HANDWRITTEN ROYAL GOLD SCRIPT */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -146,7 +146,7 @@ export const PanelOneIntroduction = () => {
           className="my-2.5 flex items-center justify-center gap-3"
         >
           <div className="h-[1px] w-14 bg-gradient-to-r from-transparent via-[#C5A059] to-transparent" />
-          <span className="font-script text-3xl sm:text-4xl text-[#C5A059] font-normal lowercase drop-shadow-xs">
+          <span className="font-handwritten text-4xl sm:text-5xl text-[#C5A059] font-normal lowercase drop-shadow-xs py-1">
             weds
           </span>
           <div className="h-[1px] w-14 bg-gradient-to-r from-transparent via-[#C5A059] to-transparent" />
@@ -158,12 +158,12 @@ export const PanelOneIntroduction = () => {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 2.3, ease: [0.16, 1, 0.3, 1] }}
-            className="font-royal text-3xl xs:text-4xl sm:text-[2.6rem] text-[#2D1F17] uppercase tracking-[0.18em] font-semibold leading-tight drop-shadow-xs mt-2"
+            className="font-cinzel text-3xl xs:text-4xl sm:text-[2.6rem] text-[#2D1F17] uppercase tracking-[0.16em] font-bold leading-tight drop-shadow-xs mt-2"
           >
             {bride.name}
           </motion.h1>
 
-          <p className="font-sans text-xs sm:text-sm text-[#801A1A] font-semibold tracking-wide mt-1.5">
+          <p className="font-serif italic text-xs sm:text-sm text-[#801A1A] font-semibold tracking-wide mt-1.5">
             <WordQueue text={bride.parents} delay={2.55} speed={0.05} />
           </p>
         </div>
@@ -212,10 +212,10 @@ export const PanelOneIntroduction = () => {
         transition={{ duration: 0.8, delay: 3.4 }}
         className="relative z-10 max-w-[320px] mb-2 px-2"
       >
-        <h2 className="font-royal text-lg sm:text-xl tracking-wide text-[#3D2E24] font-bold mb-1.5">
+        <h2 className="font-display text-lg sm:text-xl tracking-[0.14em] text-[#3D2E24] font-bold uppercase mb-1.5">
           <WordQueue text="We're getting married!" delay={3.4} speed={0.07} />
         </h2>
-        <p className="font-sans text-xs sm:text-sm text-[#7C6656] leading-relaxed mb-2 font-normal">
+        <p className="font-serif text-xs sm:text-sm text-[#7C6656] leading-relaxed mb-2 font-normal">
           <WordQueue text={invocations.invitationNote} delay={3.6} speed={0.04} />
         </p>
         <FloralGarland className="w-48 mx-auto my-2 opacity-95" />
@@ -231,7 +231,7 @@ export const PanelOneIntroduction = () => {
         <div className="relative z-10">
           <div className="flex items-center justify-center gap-2 mb-2">
             <Sparkles className="w-3.5 h-3.5 text-[#EFE3D5]" />
-            <span className="font-sans text-xs tracking-[0.25em] text-[#EFE3D5] uppercase font-bold">
+            <span className="font-hindi text-xs tracking-[0.18em] text-[#EFE3D5] font-bold">
               ॥ शुभ विवाह बंधन ॥
             </span>
             <Sparkles className="w-3.5 h-3.5 text-[#EFE3D5]" />
@@ -245,7 +245,7 @@ export const PanelOneIntroduction = () => {
 
           <div className="h-[1px] w-14 bg-[#D8C2AD]/50 mx-auto my-2" />
 
-          <p className="font-serif italic text-xs sm:text-sm text-[#F5ECE2] leading-relaxed">
+          <p className="font-pinyon text-sm sm:text-base text-[#F5ECE2] leading-relaxed">
             "Two souls united by destiny, blessed by elders, bound for eternity under the sacred Agni."
           </p>
         </div>

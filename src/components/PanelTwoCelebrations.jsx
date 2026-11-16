@@ -101,13 +101,13 @@ export const PanelTwoCelebrations = () => {
         transition={{ duration: 0.8 }}
         className="relative z-10 w-full max-w-[340px] mb-2"
       >
-        <h3 className="font-sans text-xs uppercase tracking-[0.25em] text-[#6E5544] font-bold">
+        <h3 className="font-display text-xs uppercase tracking-[0.25em] text-[#6E5544] font-bold">
           OUR SACRED JOURNEY
         </h3>
         <div className="flex justify-center my-1.5">
           <HeartIcon className="w-2.5 h-2.5 text-[#C5A059]" />
         </div>
-        <p className="font-serif italic text-sm text-[#5B4636] leading-relaxed px-2 mb-3.5">
+        <p className="font-pinyon text-base sm:text-lg text-[#5B4636] leading-relaxed px-2 mb-3.5">
           "{story.subtitle}"
         </p>
 
@@ -191,7 +191,7 @@ export const PanelTwoCelebrations = () => {
 
           <div className="grid grid-cols-4 gap-1 xs:gap-2 text-center py-2 bg-[#FAF7F2] rounded-xl border border-[#EBE3D7]">
             <div>
-              <span className="font-serif text-2xl xs:text-3xl font-bold text-[#3D2E24] block">
+              <span className="font-cinzel text-2xl xs:text-3xl font-bold text-[#3D2E24] block">
                 {String(timeLeft.days).padStart(2, "0")}
               </span>
               <span className="font-sans text-[8px] xs:text-[9px] tracking-widest text-[#8A725F] uppercase font-bold">
@@ -202,7 +202,7 @@ export const PanelTwoCelebrations = () => {
               <span className="absolute -left-1 top-0 text-xl font-serif text-[#C4B29E]">
                 :
               </span>
-              <span className="font-serif text-2xl xs:text-3xl font-bold text-[#3D2E24] block">
+              <span className="font-cinzel text-2xl xs:text-3xl font-bold text-[#3D2E24] block">
                 {String(timeLeft.hours).padStart(2, "0")}
               </span>
               <span className="font-sans text-[8px] xs:text-[9px] tracking-widest text-[#8A725F] uppercase font-bold">
@@ -213,7 +213,7 @@ export const PanelTwoCelebrations = () => {
               <span className="absolute -left-1 top-0 text-xl font-serif text-[#C4B29E]">
                 :
               </span>
-              <span className="font-serif text-2xl xs:text-3xl font-bold text-[#3D2E24] block">
+              <span className="font-cinzel text-2xl xs:text-3xl font-bold text-[#3D2E24] block">
                 {String(timeLeft.minutes).padStart(2, "0")}
               </span>
               <span className="font-sans text-[8px] xs:text-[9px] tracking-widest text-[#8A725F] uppercase font-bold">
@@ -224,7 +224,7 @@ export const PanelTwoCelebrations = () => {
               <span className="absolute -left-1 top-0 text-xl font-serif text-[#C4B29E]">
                 :
               </span>
-              <span className="font-serif text-2xl xs:text-3xl font-bold text-[#C5A059] block animate-pulse">
+              <span className="font-cinzel text-2xl xs:text-3xl font-bold text-[#C5A059] block animate-pulse">
                 {String(timeLeft.seconds).padStart(2, "0")}
               </span>
               <span className="font-sans text-[8px] xs:text-[9px] tracking-widest text-[#C5A059] uppercase font-bold">
@@ -247,13 +247,13 @@ export const PanelTwoCelebrations = () => {
         className="relative z-10 w-full max-w-[340px] mt-4"
       >
         <div className="text-center mb-3">
-          <h3 className="font-sans text-xs uppercase tracking-[0.25em] text-[#6E5544] font-bold">
+          <h3 className="font-display text-xs uppercase tracking-[0.25em] text-[#6E5544] font-bold">
             SCHEDULE OF CEREMONIES
           </h3>
           <div className="flex justify-center my-1.5">
             <HeartIcon className="w-2.5 h-2.5 text-[#C5A059]" />
           </div>
-          <p className="font-serif italic text-xs text-[#8A725F]">
+          <p className="font-pinyon text-sm sm:text-base text-[#8A725F]">
             11, 12 & 13 December • Kangra, Himachal Pradesh
           </p>
         </div>
@@ -321,7 +321,7 @@ export const PanelTwoCelebrations = () => {
                     <Calendar className="w-3.5 h-3.5 text-[#C5A059]" />
                     {dayGroup.date}
                   </span>
-                  <span className="font-serif italic text-xs text-[#8A725F]">
+                  <span className="font-pinyon text-sm sm:text-base text-[#8A725F]">
                     {dayGroup.dayTitle}
                   </span>
                 </div>
@@ -340,13 +340,13 @@ export const PanelTwoCelebrations = () => {
                         </div>
 
                         {/* Event Title */}
-                        <h4 className="font-serif text-sm font-bold text-[#3D2E24] tracking-wide truncate">
+                        <h4 className="font-display text-sm sm:text-[15px] font-bold text-[#3D2E24] tracking-wide truncate">
                           {event.title}
                         </h4>
                       </div>
 
                       {/* Time Badge */}
-                      <span className="font-sans text-[10px] sm:text-[11px] font-semibold tracking-wider text-[#8A725F] shrink-0 bg-[#F5EFE7] px-2.5 py-1 rounded-full border border-[#EBE3D7]">
+                      <span className="font-sans text-[10px] sm:text-[11px] font-bold tracking-wider text-[#8A725F] shrink-0 bg-[#F5EFE7] px-2.5 py-1 rounded-full border border-[#EBE3D7]">
                         {event.time}
                       </span>
                     </div>
@@ -365,13 +365,13 @@ export const PanelTwoCelebrations = () => {
         transition={{ duration: 0.8 }}
         className="relative z-10 w-full max-w-[280px] mt-8 mb-2"
       >
-        <h3 className="font-sans text-[11px] xs:text-xs uppercase tracking-[0.25em] text-[#6E5544] font-bold">
+        <h3 className="font-display text-[11px] xs:text-xs uppercase tracking-[0.25em] text-[#6E5544] font-bold">
           WE CAN'T WAIT TO CELEBRATE WITH YOU!
         </h3>
 
         <CoupleSilhouette className="w-10 h-10 text-[#4A3728] mx-auto my-2" />
 
-        <p className="font-serif italic text-xs text-[#8A725F]">
+        <p className="font-pinyon text-sm sm:text-base text-[#8A725F]">
           Your presence and blessings will make our wedding truly memorable
         </p>
       </motion.div>

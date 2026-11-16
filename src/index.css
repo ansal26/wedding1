@@ -5,7 +5,10 @@
   --font-royal: "Playfair Display", Georgia, serif;
   --font-italiana: "Italiana", serif;
   --font-cinzel: "Cinzel Decorative", serif;
-  --font-script: "Alex Brush", cursive;
+  --font-script: "Great Vibes", "Alex Brush", cursive;
+  --font-handwritten: "Great Vibes", cursive;
+  --font-pinyon: "Pinyon Script", cursive;
+  --font-alex: "Alex Brush", cursive;
   --font-sans: "Montserrat", -apple-system, BlinkMacSystemFont, sans-serif;
   --font-display: "Marcellus", serif;
   --font-hindi: "Noto Serif Devanagari", serif;
@@ -64,6 +67,18 @@ body {
 
 .font-script {
   font-family: var(--font-script);
+}
+
+.font-handwritten {
+  font-family: var(--font-handwritten);
+}
+
+.font-pinyon {
+  font-family: var(--font-pinyon);
+}
+
+.font-alex {
+  font-family: var(--font-alex);
 }
 
 .font-display {

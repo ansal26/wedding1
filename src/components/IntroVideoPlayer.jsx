@@ -140,32 +140,41 @@ export const IntroVideoPlayer = ({ onComplete }) => {
                   {/* Subtle radial shadow to highlight the central medallion */}
                   <div className="absolute inset-0 bg-radial from-black/20 via-black/10 to-transparent pointer-events-none" />
 
-                  {/* DEAD-CENTER SEAL BUTTON: Aligned perfectly to the gold door's mandala medallion (top-[50.2%] left-[50.4%]) */}
-                  <div className="absolute top-[50.2%] left-[50.4%] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
+                  {/* AUTHENTIC ROYAL GOLD DOOR MEDALLION BUTTON: Shifted slightly up & right to align with the door's 3D carved mandala */}
+                  <div className="absolute top-[49.3%] left-[51.0%] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
                     
-                    {/* Concentric Golden Glowing Rings */}
-                    <div className="absolute -inset-4 rounded-full bg-[#DFBA73]/30 blur-lg animate-pulse" />
-                    <div className="absolute -inset-2 rounded-full border border-[#FFE29A]/60 animate-ping opacity-40" />
+                    {/* Harmonious golden aura matching the door's gold carvings */}
+                    <div className="absolute -inset-3 rounded-full bg-[#DFBA73]/35 blur-md animate-pulse" />
+                    <div className="absolute -inset-1.5 rounded-full border border-[#FFE29A]/70 animate-ping opacity-30" />
 
-                    {/* Central Gold Medallion Button */}
+                    {/* Central 3D Embossed Gold Seal Medallion */}
                     <motion.button
                       type="button"
-                      whileHover={{ scale: 1.08 }}
+                      whileHover={{ scale: 1.07 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={handleOpenInvitation}
-                      className="relative w-[92px] h-[92px] xs:w-[96px] xs:h-[96px] rounded-full bg-gradient-to-tr from-[#7A541C] via-[#C5A059] to-[#F5D88E] p-[3px] shadow-[0_12px_35px_rgba(0,0,0,0.65)] flex items-center justify-center cursor-pointer focus:outline-none"
+                      className="relative w-[88px] h-[88px] xs:w-[92px] xs:h-[92px] rounded-full bg-gradient-to-tr from-[#9E7329] via-[#F4DF9E] to-[#8C601E] p-[3px] shadow-[0_10px_28px_rgba(40,20,5,0.45),inset_0_2px_4px_rgba(255,255,255,0.7)] flex items-center justify-center cursor-pointer focus:outline-none transition-all"
                       aria-label="Tap to open wedding invitation"
                     >
-                      {/* Inner Glass/Metallic Core */}
-                      <div className="w-full h-full rounded-full bg-gradient-to-b from-[#2D1F17]/85 via-[#4A3423]/90 to-[#22160F]/95 border border-[#FFE29A]/80 backdrop-blur-xs flex flex-col items-center justify-center p-2 text-center shadow-inner">
-                        <Sparkles className="w-4 h-4 text-[#FFD77A] mb-1 animate-spin" style={{ animationDuration: "9s" }} />
-                        <span className="font-royal text-[11px] xs:text-xs font-bold tracking-[0.2em] uppercase text-[#FFFDF9] leading-tight drop-shadow-xs">
+                      {/* Inner 3D Royal Gold & Warm Ivory Enamel Face (Looks like part of the door itself) */}
+                      <div className="w-full h-full rounded-full bg-gradient-to-b from-[#FFFDF8] via-[#F9F0DB] to-[#E8D4A8] border-[1.5px] border-[#9E7329]/50 flex flex-col items-center justify-center p-1.5 text-center shadow-[inset_0_2px_5px_rgba(255,255,255,0.9),inset_0_-2px_4px_rgba(140,90,30,0.25)] relative overflow-hidden">
+                        
+                        {/* Fine concentric ornamental inner coin border */}
+                        <div className="absolute inset-[3px] rounded-full border border-dashed border-[#B88E3E]/60 pointer-events-none" />
+
+                        {/* Top Royal Sparkle Icon */}
+                        <Sparkles className="w-3.5 h-3.5 text-[#8C5D1F] mb-0.5 animate-spin relative z-10" style={{ animationDuration: "12s" }} />
+                        
+                        {/* Engraved Royal Text */}
+                        <span className="font-cinzel text-[10px] xs:text-[10.5px] font-extrabold tracking-[0.24em] uppercase text-[#3D2513] leading-tight relative z-10 drop-shadow-[0_1px_0_rgba(255,255,255,0.8)]">
                           TAP TO
                         </span>
-                        <span className="font-royal text-[11px] xs:text-xs font-bold tracking-[0.2em] uppercase text-[#DFBA73] leading-tight drop-shadow-xs">
+                        <span className="font-cinzel text-[10px] xs:text-[10.5px] font-extrabold tracking-[0.24em] uppercase text-[#7A4B1A] leading-tight relative z-10 drop-shadow-[0_1px_0_rgba(255,255,255,0.8)]">
                           OPEN
                         </span>
-                        <Heart className="w-2.5 h-2.5 text-[#FFD77A] fill-[#FFD77A] mt-1" />
+                        
+                        {/* Bottom Auspicious Heart */}
+                        <Heart className="w-2.5 h-2.5 text-[#9E7329] fill-[#9E7329] mt-0.5 relative z-10" />
                       </div>
                     </motion.button>
                   </div>

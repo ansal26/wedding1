@@ -319,7 +319,7 @@ export const ScratchCardDate = ({ onReveal }) => {
 
           {/* DATES WITH COMMAS (Requested: 11, 12, 13 DECEMBER) */}
           <div className="flex items-center justify-center gap-1.5 my-0.5">
-            <span className="font-royal text-xl sm:text-2xl font-bold tracking-[0.14em] text-[#3D2E24] drop-shadow-xs">
+            <span className="font-cinzel text-xl sm:text-2xl font-bold tracking-[0.14em] text-[#3D2E24] drop-shadow-xs">
               11, 12, 13 DECEMBER
             </span>
           </div>
@@ -329,7 +329,7 @@ export const ScratchCardDate = ({ onReveal }) => {
             <span className="px-2 py-0.5 rounded-full bg-[#801A1A]/10 text-[10px] font-sans font-bold text-[#801A1A] tracking-wider uppercase">
               2026
             </span>
-            <span className="text-[10px] font-serif italic text-[#7C6656]">
+            <span className="text-xs font-pinyon text-[#7C6656]">
               11 Sangeet • 12 Barat • 13 Dham
             </span>
           </div>

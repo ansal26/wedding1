@@ -17,7 +17,7 @@ export const PanelThreeDetails = () => {
         transition={{ duration: 0.7 }}
         className="relative z-10 w-full mb-4"
       >
-        <h2 className="font-sans text-xs sm:text-sm uppercase tracking-[0.25em] text-[#6E5544] font-bold">
+        <h2 className="font-display text-xs sm:text-sm uppercase tracking-[0.25em] text-[#6E5544] font-bold">
           WEDDING DETAILS & VENUE
         </h2>
         <div className="flex justify-center my-1.5">
@@ -43,7 +43,7 @@ export const PanelThreeDetails = () => {
               <span className="font-sans text-[11px] tracking-widest text-[#C5A059] uppercase font-bold block">
                 GROOM'S RESIDENCE (VENUE)
               </span>
-              <h4 className="font-serif text-base sm:text-lg font-bold text-[#3D2E24] mt-0.5">
+              <h4 className="font-cinzel text-base sm:text-lg font-bold text-[#3D2E24] mt-0.5">
                 {groom.address.name}
               </h4>
               <div className="font-sans text-xs sm:text-sm text-[#7C6656] leading-relaxed mt-1 space-y-0.5">
@@ -74,7 +74,7 @@ export const PanelThreeDetails = () => {
               <span className="font-sans text-[11px] tracking-widest text-[#C5A059] uppercase font-bold block">
                 BRIDE'S RESIDENCE (VENUE)
               </span>
-              <h4 className="font-serif text-base sm:text-lg font-bold text-[#3D2E24] mt-0.5">
+              <h4 className="font-cinzel text-base sm:text-lg font-bold text-[#3D2E24] mt-0.5">
                 {bride.address.name}
               </h4>
               <div className="font-sans text-xs sm:text-sm text-[#7C6656] leading-relaxed mt-1 space-y-0.5">
@@ -109,7 +109,7 @@ export const PanelThreeDetails = () => {
                 <span className="font-sans text-xs font-semibold text-[#8A725F] block mb-1">
                   Awaiting your gracious presence:
                 </span>
-                <p className="font-serif text-sm sm:text-base font-bold text-[#3D2E24] tracking-wide">
+                <p className="font-display text-sm sm:text-base font-bold text-[#3D2E24] tracking-wide">
                   {rsvp.familyMembers.join(" • ")}
                 </p>
               </div>
@@ -160,7 +160,7 @@ export const PanelThreeDetails = () => {
           {invocations.subhVivah}
         </motion.h3>
 
-        {/* ANIMATED "THANK YOU" WITH GENTLE GLOW & BREATHING MOTION */}
+        {/* ANIMATED "THANK YOU" IN BREATHING HANDWRITTEN ROYAL CALLIGRAPHY */}
         <motion.div
           animate={{
             scale: [1, 1.03, 1],
@@ -172,10 +172,10 @@ export const PanelThreeDetails = () => {
           }}
           className="my-3 py-1"
         >
-          <span className="font-script text-5xl xs:text-6xl text-[#7D6451] block drop-shadow-sm leading-tight">
+          <span className="font-handwritten text-6xl xs:text-7xl text-[#7D6451] block drop-shadow-sm leading-tight py-1">
             Thank You
           </span>
-          <p className="font-serif italic text-xs xs:text-sm text-[#8A725F] mt-1.5 px-4">
+          <p className="font-pinyon text-base xs:text-lg text-[#8A725F] mt-1 px-4 leading-relaxed">
             For your warm presence, love & divine blessings on our special day
           </p>
         </motion.div>
@@ -190,10 +190,10 @@ export const PanelThreeDetails = () => {
           transition={{ duration: 0.7, delay: 0.3 }}
           className="inline-block p-3 px-6 bg-[#FFFDF9] rounded-2xl border border-[#C5A059]/40 shadow-xs text-center mx-auto"
         >
-          <span className="font-royal text-sm font-bold tracking-[0.18em] text-[#3D2E24] uppercase block">
+          <span className="font-cinzel text-sm sm:text-base font-bold tracking-[0.22em] text-[#3D2E24] uppercase block">
             ASHISH & SHIVANGI
           </span>
-          <span className="font-serif italic text-[11px] text-[#9A7B61] mt-0.5 block">
+          <span className="font-pinyon text-xs sm:text-sm text-[#9A7B61] mt-0.5 block">
             With heartfelt love & gratitude from both families
           </span>
         </motion.div>
